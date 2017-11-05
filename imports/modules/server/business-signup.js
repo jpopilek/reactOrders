@@ -1,6 +1,3 @@
-// /**
-//  * Created by jon on 11/4/17.
-//  */
 // /* eslint-disable no-undef, no-underscore-dangle */
 //
 // import { browserHistory } from 'react-router';
@@ -22,20 +19,27 @@
 // });
 //
 // const signup = () => {
-//   const user = getUserData();
-//   const password = user.password;
-//   user.password = Accounts._hashPassword(user.password);
-//
-//   Meteor.call('signup', { source: user }, (methodError) => {
-//     if (methodError) {
-//       Bert.alert(methodError.reason, 'danger');
+//   window.stripe.createToken(component.card.card)
+//   .then(({ error, token }) => {
+//     if (error) {
+//       Bert.alert(error);
 //     } else {
-//       Meteor.loginWithPassword(user.email, password, (loginError) => {
-//         if (loginError) {
-//           Bert.alert(loginError.reason, 'danger');
+//       const user = getUserData();
+//       const password = user.password;
+//       user.password = Accounts._hashPassword(user.password);
+//
+//       Meteor.call('signup', { source: user }, (methodError) => {
+//         if (methodError) {
+//           Bert.alert(methodError.reason, 'danger');
 //         } else {
-//           Bert.alert('Welcome to agile orders!', 'success');
-//           browserHistory.push('/documents');
+//           Meteor.loginWithPassword(user.email, password, (loginError) => {
+//             if (loginError) {
+//               Bert.alert(loginError.reason, 'danger');
+//             } else {
+//               Bert.alert('Welcome to agile orders!', 'success');
+//               browserHistory.push('/documents');
+//             }
+//           });
 //         }
 //       });
 //     }
@@ -80,7 +84,7 @@
 //   });
 // };
 //
-// export default function handleUserSignup(options) {
+// export default function handleSignup(options) {
 //   component = options.component;
 //   validate();
 // }

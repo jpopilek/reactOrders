@@ -1,3 +1,6 @@
+/**
+ * Created by jon on 11/4/17.
+ */
 /* eslint-disable no-undef, no-underscore-dangle */
 
 import { browserHistory } from 'react-router';
@@ -10,7 +13,6 @@ let component;
 const getUserData = () => ({
   email: component.emailAddress.value,
   password: component.password.value,
-  plan: document.querySelector('[name="plan"]:checked').value,
   profile: {
     name: {
       first: component.firstName.value,
@@ -19,29 +21,26 @@ const getUserData = () => ({
   },
 });
 
-const signup = () => {
-  window.stripe.createToken(component.card.card)
-  .then(({ error, token }) => {
-    if (error) {
-      Bert.alert(error);
+const userSignup = () => {
+  const user = getUserData();
+  const password = user.password;
+  user.password = Accounts._hashPassword(user.password);
+
+  console.log("signup function in modules/user-signup. user: ");
+  console.log(user);
+
+  Meteor.call('userSignup',{ user }, (methodError) => {
+    if (methodError) {
+      console.log("methodError");
+      Bert.alert(methodError.reason, 'danger');
     } else {
-      const user = getUserData();
-      const password = user.password;
-      user.password = Accounts._hashPassword(user.password);
-      console.log("signup function in modules/signup. user: ");
-      console.log(user);
-      Meteor.call('signup', { source: token.id, user }, (methodError) => {
-        if (methodError) {
-          Bert.alert(methodError.reason, 'danger');
+      Meteor.loginWithPassword(user.email, password, (loginError) => {
+        console.log("called loginWithPassword");
+        if (loginError) {
+          Bert.alert(loginError.reason, 'danger');
         } else {
-          Meteor.loginWithPassword(user.email, password, (loginError) => {
-            if (loginError) {
-              Bert.alert(loginError.reason, 'danger');
-            } else {
-              Bert.alert('Welcome to Doxie!', 'success');
-              browserHistory.push('/documents');
-            }
-          });
+          Bert.alert('Welcome to Doxie!', 'success');
+          browserHistory.push('/documents');
         }
       });
     }
@@ -82,11 +81,13 @@ const validate = () => {
         minlength: 'Use at least six characters, please.',
       },
     },
-    submitHandler() { signup(); },
+    submitHandler() { userSignup(); },
   });
 };
 
-export default function handleSignup(options) {
+export default function handleUserSignup(options) {
   component = options.component;
+  console.log("component");
+  console.log(options.component);
   validate();
 }

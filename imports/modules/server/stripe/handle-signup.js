@@ -47,6 +47,8 @@ const createUser = ({ email, password, profile }) => {
 };
 
 const handleSignup = (options, promise) => {
+  console.log("inside handleSignup. PARAMS: ");
+  console.log(options);
   try {
     action = promise;
     const userId = createUser(options.user);
@@ -69,6 +71,7 @@ const handleSignup = (options, promise) => {
     action.reject(`[handleSignup] ${exception}`);
   }
 };
+
 
 export default customer =>
 new Promise((resolve, reject) =>

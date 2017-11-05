@@ -7,6 +7,8 @@ import handleUpdatePayment from '../../../modules/server/stripe/handle-update-pa
 
 Meteor.methods({
   signup(customer) {
+    console.log("customers/server/methods signup method. params: ");
+    console.log(customer);
     check(customer, Object);
     return handleSignup(customer)
     .then(subscription => subscription)

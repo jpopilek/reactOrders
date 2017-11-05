@@ -1,12 +1,10 @@
 import React from 'react';
-import { Row, Col, FormGroup, ControlLabel, Button, Alert } from 'react-bootstrap';
-import Plans from '../components/Plans';
-import Card from '../components/Card';
-import handleSignup from '../../modules/signup';
+import { Row, Col, FormGroup, ControlLabel, Button } from 'react-bootstrap';
+import handleUserSignup from '../../modules/user-signup';
 
 class UserSignup extends React.Component {
   componentDidMount() {
-    handleSignup({ component: this });
+    handleUserSignup({ component: this });
   }
 
   handleSubmit(event) {
