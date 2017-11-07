@@ -40,15 +40,15 @@ const createCustomerOnStripe = ({ userId, profile, email }, source) => {
 
 const createUser = ({ email, password, profile }) => {
   try {
-    return Accounts.createUser({ email, password, profile });
+    var id = Accounts.createUser({ email, password, profile });
+    Roles.addUsersToRoles(id, 'owner');
+    return id;
   } catch (exception) {
     action.reject(`[handleSignup.createUser] ${exception}`);
   }
 };
 
 const handleSignup = (options, promise) => {
-  console.log("inside handleSignup. PARAMS: ");
-  console.log(options);
   try {
     action = promise;
     const userId = createUser(options.user);
