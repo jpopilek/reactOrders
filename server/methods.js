@@ -11,8 +11,5 @@ Meteor.methods({
     console.log(user);
     check(user, Object);
     return handleUserSignup(user)
-      .catch((error) => {
-        throw new Meteor.Error('500', `${error}`);
-      });
   },
 });
